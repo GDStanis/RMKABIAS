@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to the next Activity"
-        android:onClick="onClickNewActivity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mainToolbar"
         android:layout_width="409dp"
@@ -34,7 +21,7 @@
         android:id="@+id/appTitle"
         android:layout_width="226dp"
         android:layout_height="32dp"
-        android:text="MultiActivity Module"
+        android:text="IntentFilter Module"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
@@ -46,31 +33,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022" />
 
-    <EditText
-        android:id="@+id/userInput"
-        android:layout_width="295dp"
-        android:layout_height="55dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Dvorin Georgy BISO-01-19"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mainToolbar"
-        app:layout_constraintVertical_bias="0.5" />
-
     <Button
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:onClick="onClickSend"
+        android:id="@+id/btnBrowser"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="227dp"
+        android:layout_height="99dp"
+        android:text="Check Uri"
+        android:textSize="34sp"
+        android:onClick="onClickCheck"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mainToolbar"
         app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/btnStudent"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="227dp"
+        android:layout_height="99dp"
+        android:text="Student"
+        android:textSize="34sp"
+        android:onClick="onClickStudent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mainToolbar"
+        app:layout_constraintVertical_bias="0.4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
