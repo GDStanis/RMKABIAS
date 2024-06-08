@@ -7,16 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".MP3Activity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="323dp"
-        android:layout_height="337dp"
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView"-->
+    <!--        android:layout_width="323dp"-->
+    <!--        android:layout_height="337dp"-->
+    <!--        android:src="@drawable/dance"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.119" />-->
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:src="@drawable/dance"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/songTitle"
@@ -31,11 +40,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.675" />
 
-    <Button
+    <ImageButton
         android:id="@+id/playButton"
         android:layout_width="58dp"
         android:layout_height="64dp"
-        android:background="@android:drawable/ic_media_play"
+        android:src="@android:drawable/ic_media_play"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -43,11 +53,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.865" />
 
-    <Button
+    <ImageButton
         android:id="@+id/nextButton"
         android:layout_width="62dp"
         android:layout_height="64dp"
-        android:background="@android:drawable/ic_media_next"
+        android:src="@android:drawable/ic_media_next"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.782"
@@ -55,11 +66,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.863" />
 
-    <Button
+    <ImageButton
         android:id="@+id/previousButton"
         android:layout_width="59dp"
         android:layout_height="63dp"
-        android:background="@android:drawable/ic_media_previous"
+        android:src="@android:drawable/ic_media_previous"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.235"
