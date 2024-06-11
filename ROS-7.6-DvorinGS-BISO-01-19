@@ -1,0 +1,108 @@
+# jun/11/2024 13:02:41 by RouterOS 7.6
+# software id =
+#
+/interface bridge
+add name=vlan10-bridge
+add name=vlan20-bridge
+add name=vlan30-bridge
+add name=vlan40-bridge-wifi
+/interface vlan
+add interface=vlan10-bridge name=VLAN10 vlan-id=10
+add interface=vlan20-bridge name=VLAN20 vlan-id=20
+add interface=vlan30-bridge name=VLAN30 vlan-id=30
+add interface=vlan40-bridge-wifi name=VLAN40 vlan-id=40
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/port
+set 0 name=serial0
+set 1 name=serial1
+/interface bridge port
+add bridge=vlan10-bridge frame-types=admit-only-untagged-and-priority-tagged \
+    interface=ether1 pvid=10
+add bridge=vlan10-bridge frame-types=admit-only-untagged-and-priority-tagged \
+    interface=ether2 pvid=10
+add bridge=vlan20-bridge frame-types=admit-only-untagged-and-priority-tagged \
+    interface=ether3 pvid=20
+add bridge=vlan30-bridge frame-types=admit-only-untagged-and-priority-tagged \
+    interface=ether4 pvid=30
+add bridge=vlan40-bridge-wifi frame-types=admit-only-vlan-tagged interface=\
+    ether5 pvid=40
+/ip address
+add address=10.10.10.1/24 comment=VLAN-10 interface=vlan10-bridge network=\
+    10.10.10.0
+add address=10.20.20.1/24 comment=VLAN-20 interface=vlan20-bridge network=\
+    10.20.20.0
+add address=10.30.30.1/24 comment=VLAN-30 interface=vlan30-bridge network=\
+    10.30.30.0
+add address=10.40.40.1/24 comment=VLAN-40 interface=vlan40-bridge-wifi \
+    network=10.40.40.0
+add address=185.19.234.2/30 comment=to-INET interface=ether8 network=\
+    185.19.234.0
+/ip dns
+set use-doh-server=https://cloudflare-dns.com/dns-query verify-doh-cert=yes
+/ip dns static
+add address=1.1.1.1 name=cloudflare-dns.com
+/ip firewall address-list
+add address=10.10.10.0/24 list=VLAN10-control
+/ip firewall filter
+add action=drop chain=input dst-address=10.10.10.0/24 in-interface=ether8
+add action=drop chain=input dst-address=10.20.20.0/24 in-interface=ether8
+add action=drop chain=input dst-address=10.30.30.0/24 in-interface=ether8
+add action=drop chain=input dst-address=10.40.40.0/24 in-interface=ether8
+add action=accept chain=input dst-port=8291 in-interface=vlan10-bridge \
+    protocol=tcp
+add action=accept chain=input dst-port=8291 in-interface=vlan20-bridge \
+    protocol=tcp
+add action=accept chain=input dst-port=8291 in-interface=vlan30-bridge \
+    protocol=tcp
+add action=accept chain=input dst-port=8291 in-interface=vlan40-bridge-wifi \
+    protocol=tcp
+add action=drop chain=forward dst-address=10.20.20.0/24 src-address=\
+    10.10.10.0/24
+add action=drop chain=forward dst-address=10.30.30.0/24 src-address=\
+    10.10.10.0/24
+add action=drop chain=forward dst-address=10.40.40.0/24 src-address=\
+    10.10.10.0/24
+add action=drop chain=forward dst-address=10.10.10.0/24 src-address=\
+    10.20.20.0/24
+add action=drop chain=forward dst-address=10.30.30.0/24 src-address=\
+    10.20.20.0/24
+add action=drop chain=forward dst-address=10.40.40.0/24 src-address=\
+    10.20.20.0/24
+add action=drop chain=forward dst-address=10.10.10.0/24 src-address=\
+    10.30.30.0/24
+add action=drop chain=forward dst-address=10.20.20.0/24 src-address=\
+    10.30.30.0/24
+add action=drop chain=forward dst-address=10.40.40.0/24 src-address=\
+    10.30.30.0/24
+add action=drop chain=forward dst-address=10.10.10.0/24 src-address=\
+    10.40.40.0/24
+add action=drop chain=forward dst-address=10.20.20.0/24 src-address=\
+    10.40.40.0/24
+add action=drop chain=forward dst-address=10.30.30.0/24 src-address=\
+    10.40.40.0/24
+add action=drop chain=forward comment=vlan10-drop out-interface=ether8 \
+    src-address-list=VLAN10-control
+/ip firewall nat
+add action=masquerade chain=srcnat out-interface=ether8
+/ip route
+add gateway=185.19.234.1
+/system identity
+set name=ROS-7.6-DvorinGS-BISO-01-19
+/system scheduler
+add interval=1d name=block-inet-vlan10 on-event=\
+    "/ip/firewall/filter enable [find comment=vlan10-drop]" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=jun/10/2024 start-time=09:00:00
+
+# Примечание: в виртуалке микрота, конфиг которой приведен выше, было невозможно настроить беспроводные интерфейсы, 
+# поэтому там была реализована симуляция подключения точки доступа на транковый порт ether5. Если бы это было возможно, 
+# то в конфиге были бы добавлены строки ниже:
+
+/interface wireless
+set [ find default-name=wlan1 ] band=2ghz-b/g/n disabled=no frequency=auto mode=ap-bridge ssid=GDS_wifi2.4
+set [ find default-name=wlan2 ] band=5ghz-a/n/ac disabled=no frequency=auto mode=ap-bridge ssid=GDS_wifi2.5
+
+/interface bridge port
+add bridge=vlan40-bridge-wifi interface=wlan1
+add bridge=vlan40-bridge-wifi interface=wlan2
